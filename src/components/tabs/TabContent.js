@@ -9,7 +9,8 @@ function TabContent(post) {
   const changeHandler = (value) => {
     dispatch(updateTab({ id, tempBody: value, body }));
   };
-  const clickHandler = () => {
+  const clickHandler = (e) => {
+    e.preventDefault();
     dispatch(updatePost(convertToServerFormat(post)));
     dispatch(saveTab({ id }));
   };
@@ -21,7 +22,7 @@ function TabContent(post) {
         onChange={(e) => changeHandler(e.target.value)}
         style={{ height: 200 }}
       />
-      <Button className={"m-3"} onClick={clickHandler}>
+      <Button className={"m-3"} onClick={(e) => clickHandler(e)}>
         Save
       </Button>
     </>

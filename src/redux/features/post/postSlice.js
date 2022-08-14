@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../../api/constants";
-import { fetchAllPosts } from "../../../api/posts";
+import { fetchAllPostsRequest, updatePostRequest } from "../../../api/posts";
 
 const initialState = {
   posts: [],
@@ -8,17 +7,14 @@ const initialState = {
   error: "",
 };
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", fetchAllPosts);
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  fetchAllPostsRequest
+);
 
-export const updatePost = createAsyncThunk("posts/updatePost", (post) => {
-  return fetch(`${BASE_URL}/posts/${post.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(post),
-  })
-    .then((res) => res.json())
-    .catch((error) => error.message);
-});
+export const updatePost = createAsyncThunk("posts/updatePost", (post) =>
+  updatePostRequest(post)
+);
 
 export const postsSlice = createSlice({
   name: "posts",

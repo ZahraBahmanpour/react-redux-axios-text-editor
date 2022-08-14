@@ -1,9 +1,18 @@
 import { POSTS } from "./constants";
 import axios from "./http";
 
-export const fetchAllPosts = async () => {
+export const fetchAllPostsRequest = async () => {
   try {
     const response = await axios.get(`${POSTS}`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const updatePostRequest = async (post) => {
+  try {
+    const response = await axios.put(`${POSTS}/${post.id}`, post);
     return response.data;
   } catch (error) {
     return Promise.reject(error);

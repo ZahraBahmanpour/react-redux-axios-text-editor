@@ -42,7 +42,6 @@ export const tabsSlice = createSlice({
     },
     saveTab: (state, action) => {
       const { id } = action.payload;
-      console.log(id);
       return {
         ...state,
         tabs: state.tabs.map((tab) =>
