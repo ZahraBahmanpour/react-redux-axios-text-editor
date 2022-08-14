@@ -27,9 +27,18 @@ export const tabsSlice = createSlice({
         activeKey: isActive ? state.tabs[0].id : state.activeKey,
       };
     },
+    closeAllTabs: (state) => {
+      const unsavedTabs = state.tabs.filter((tab) => tab.unSaved === true);
+      return {
+        ...state,
+        tabs: unsavedTabs.length > 0 ? state.tabs : [],
+      };
+    },
     activeTab: (state, action) => {
       const { id } = action.payload;
-      return { ...state, activeKey: id };
+      if (id !== "close-all") {
+        return { ...state, activeKey: id };
+      }
     },
     updateTab: (state, action) => {
       const { id, tempBody, body } = action.payload;
@@ -58,7 +67,14 @@ export const tabsSlice = createSlice({
   },
 });
 
-export const { openTab, closeTab, updateTab, activeTab, saveTab, setCrudMode } =
-  tabsSlice.actions;
+export const {
+  openTab,
+  closeTab,
+  updateTab,
+  activeTab,
+  saveTab,
+  setCrudMode,
+  closeAllTabs,
+} = tabsSlice.actions;
 
 export default tabsSlice.reducer;
