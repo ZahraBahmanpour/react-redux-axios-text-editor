@@ -1,0 +1,2 @@
+export const CRUD_MODE_UPDATE = "CRUD_MODE_UPDATE";
+export const CRUD_MODE_CREATE = "CRUD_MODE_CREATE";

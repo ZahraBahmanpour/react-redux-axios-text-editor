@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CRUD_MODE_UPDATE } from "../../../config/constants";
 
 const initialState = {
   tabs: [],
   activeKey: 1,
+  crudMode: CRUD_MODE_UPDATE,
 };
 export const tabsSlice = createSlice({
   name: "tabs",
@@ -49,10 +51,14 @@ export const tabsSlice = createSlice({
         ),
       };
     },
+    setCrudMode: (state, action) => {
+      const { crudMode } = action.payload;
+      return { ...state, crudMode };
+    },
   },
 });
 
-export const { openTab, closeTab, updateTab, activeTab, saveTab } =
+export const { openTab, closeTab, updateTab, activeTab, saveTab, setCrudMode } =
   tabsSlice.actions;
 
 export default tabsSlice.reducer;

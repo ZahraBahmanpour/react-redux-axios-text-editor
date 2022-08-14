@@ -1,9 +1,10 @@
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { openTab } from "../../redux/features/tab/tabsSlice";
+import { openTab, setCrudMode } from "../../redux/features/tab/tabsSlice";
 import { useEffect } from "react";
 import { fetchPosts } from "../../redux/features/post/postSlice";
+import { CRUD_MODE_CREATE } from "../../config/constants";
 
 function SideMenu() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function SideMenu() {
   const handleCreateNew = () => {
     const id = Math.floor(Math.random() * 10000);
     const title = prompt("Enter file name", "Untitled");
+    dispatch(setCrudMode({ crudMode: CRUD_MODE_CREATE }));
     dispatch(openTab({ id, title, body: "", tempBody: "" }));
   };
   return (
