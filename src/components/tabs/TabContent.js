@@ -4,10 +4,10 @@ import { updatePost } from "../../redux/features/post/postSlice";
 import { saveTab, updateTab } from "../../redux/features/tab/tabsSlice";
 
 function TabContent(post) {
-  const { id, tempBody } = post;
+  const { id, tempBody, body } = post;
   const dispatch = useDispatch();
   const changeHandler = (value) => {
-    dispatch(updateTab({ id, tempBody: value }));
+    dispatch(updateTab({ id, tempBody: value, body }));
   };
   const clickHandler = () => {
     dispatch(updatePost(convertToServerFormat(post)));

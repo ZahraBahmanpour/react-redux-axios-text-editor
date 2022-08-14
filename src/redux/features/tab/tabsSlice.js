@@ -30,11 +30,13 @@ export const tabsSlice = createSlice({
       return { ...state, activeKey: id };
     },
     updateTab: (state, action) => {
-      const { id, tempBody } = action.payload;
+      const { id, tempBody, body } = action.payload;
       return {
         ...state,
         tabs: state.tabs.map((tab) =>
-          tab.id === id ? { ...tab, tempBody, unSaved: true } : tab
+          tab.id === id
+            ? { ...tab, tempBody, unSaved: tempBody !== body ? true : false }
+            : tab
         ),
       };
     },
