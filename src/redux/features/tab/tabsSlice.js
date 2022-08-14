@@ -18,7 +18,12 @@ export const tabsSlice = createSlice({
     },
     closeTab: (state, action) => {
       const { id } = action.payload;
-      return { ...state, tabs: state.tabs.filter((tab) => tab.id !== id) };
+      const isActive = state.activeKey === id;
+      return {
+        ...state,
+        tabs: state.tabs.filter((tab) => tab.id !== id),
+        activeKey: isActive ? state.tabs[0].id : state.activeKey,
+      };
     },
     activeTab: (state, action) => {
       const { id } = action.payload;
