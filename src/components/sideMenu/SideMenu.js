@@ -1,6 +1,5 @@
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import posts from "../../data/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { openTab } from "../../redux/features/tab/tabsSlice";
 import { useEffect } from "react";
