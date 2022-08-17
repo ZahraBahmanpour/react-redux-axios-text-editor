@@ -27,3 +27,12 @@ export const createPostRequest = async (post) => {
     return Promise.reject(error);
   }
 };
+
+export const deletePostRequest = async (post) => {
+  try {
+    const response = await axios.delete(`${POSTS}/${post.id}`);
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

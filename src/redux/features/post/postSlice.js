@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createPostRequest,
+  deletePostRequest,
   fetchAllPostsRequest,
   updatePostRequest,
 } from "../../../api/posts";
@@ -22,6 +23,10 @@ export const updatePost = createAsyncThunk("posts/updatePost", (post) =>
 
 export const createPost = createAsyncThunk("posts/createPost", (post) =>
   createPostRequest(post)
+);
+
+export const deletePost = createAsyncThunk("posts/deletePost", (post) =>
+  deletePostRequest(post)
 );
 
 export const postsSlice = createSlice({
@@ -56,6 +61,16 @@ export const postsSlice = createSlice({
       return { ...state, loading: false };
     });
     builder.addCase(createPost.rejected, (state, action) => {
+      return { ...state, loading: false, error: action.payload };
+    });
+    // delete post
+    builder.addCase(deletePost.pending, (state) => {
+      return { ...state, loading: true };
+    });
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+      return { ...state, loading: false };
+    });
+    builder.addCase(deletePost.rejected, (state, action) => {
       return { ...state, loading: false, error: action.payload };
     });
   },

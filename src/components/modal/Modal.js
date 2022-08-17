@@ -1,22 +1,22 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function SaveModal({ show, handleClose, handleExit }) {
+function SaveModal({ show, handleOk, handleCancel, message }) {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleCancel}>
       <Modal.Header closeButton>
         <Modal.Title>Save</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p>You have unsaved changes. Do you want to exit?</p>
+        <p>{message}</p>
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={(e) => handleExit(e)}>
-          Exit
+        <Button variant="secondary" onClick={(e) => handleOk(e)}>
+          Ok
         </Button>
-        <Button variant="danger" onClick={(e) => handleClose(e)}>
+        <Button variant="danger" onClick={(e) => handleCancel(e)}>
           Cancel
         </Button>
       </Modal.Footer>

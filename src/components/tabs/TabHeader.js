@@ -21,8 +21,9 @@ export default function TabHeader({ title, id, unSaved }) {
       {isModalOpen && (
         <SaveModal
           show={isModalOpen}
-          handleClose={() => setIsModalOpen(false)}
-          handleExit={closeHandler}
+          handleCancel={() => setIsModalOpen(false)}
+          handleOk={closeHandler}
+          message={"You have unsaved changes. Do you want to exit?"}
         />
       )}
       <div
