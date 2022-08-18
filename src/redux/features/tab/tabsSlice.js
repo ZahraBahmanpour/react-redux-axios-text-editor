@@ -55,6 +55,7 @@ export const tabsSlice = createSlice({
       const { id } = action.payload;
       return {
         ...state,
+        crudMode: CRUD_MODE_UPDATE,
         tabs: state.tabs.map((tab) =>
           tab.id === id ? { ...tab, unSaved: false } : tab
         ),
