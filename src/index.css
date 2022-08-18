@@ -110,3 +110,7 @@
 .button-block {
   width: 100%;
 }
+
+h6.error {
+  color: var(--red-dark);
+}

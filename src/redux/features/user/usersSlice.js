@@ -14,7 +14,7 @@ export const usersSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      return { ...state, isLoggedIn: true };
+      return { ...state, isLoggedIn: true, error: "" };
     });
     builder.addCase(login.rejected, (state, action) => {
       return {

@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/features/user/usersSlice";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLoggedIn, error } = useSelector((state) => state.users);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/");
+    dispatch(login({ username, password }));
   };
+  if (isLoggedIn) return <Navigate to="/" />;
   return (
     <form className="form" onSubmit={(e) => handleSubmit(e)}>
+      {error && <h6 className="error">{error}</h6>}
       <h5>login</h5>
       <div className="form-row">
         <label htmlFor="username" className="form-label">
