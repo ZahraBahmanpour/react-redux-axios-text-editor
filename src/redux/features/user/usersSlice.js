@@ -1,13 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginRequest } from "../../../api/users";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../config/constants";
 const initialState = {
   error: "",
   isLoggedIn: false,
 };
 
-export const login = createAsyncThunk("users/login", (user) =>
-  loginRequest(user)
-);
+export const login = createAsyncThunk("users/login", (user) => {
+  return loginRequest(user)
+    .then((response) => {
+      localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, response.refreshToken);
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+});
 
 export const usersSlice = createSlice({
   name: "users",
