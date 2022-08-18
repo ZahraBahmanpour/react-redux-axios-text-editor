@@ -4,13 +4,21 @@ import Tabs from "./components/tabs/Tabs";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import "./index.css";
+import { PrivateRoute } from "./route/PrivateRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Container className="mt-2">
         <Routes>
-          <Route path="/" element={<Home />}>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          >
             <Route path=":id" element={<Tabs />} />
           </Route>
           <Route path="login" element={<Login />} />
