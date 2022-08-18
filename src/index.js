@@ -4,6 +4,8 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./redux/features/store";
+import { injectStore } from "./api/http";
+injectStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
