@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { closeTab } from "../../redux/features/tab/tabsSlice";
 import SaveModal from "../modal/Modal";
 import { useDispatch } from "react-redux";
+import useDialog from "../../hooks/useDialog";
 
 export default function TabHeader({ title, id, unSaved }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, handleClickOpen, handleClose] = useDialog();
   const clickHandler = () => {
     navigate(`/${id}`);
   };
@@ -21,7 +21,7 @@ export default function TabHeader({ title, id, unSaved }) {
       {isModalOpen && (
         <SaveModal
           show={isModalOpen}
-          handleCancel={() => setIsModalOpen(false)}
+          handleCancel={handleClose}
           handleOk={closeHandler}
           message={"You have unsaved changes. Do you want to exit?"}
         />
@@ -33,7 +33,7 @@ export default function TabHeader({ title, id, unSaved }) {
         {title.slice(0, 10)}...
         <IoCloseSharp
           className="text-danger"
-          onClick={(e) => (unSaved ? setIsModalOpen(true) : closeHandler(e))}
+          onClick={(e) => (unSaved ? handleClickOpen(e) : closeHandler(e))}
         />
       </div>
     </>
