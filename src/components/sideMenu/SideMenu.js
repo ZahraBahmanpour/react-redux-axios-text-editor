@@ -1,23 +1,25 @@
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { openTab, setCrudMode } from "../../redux/features/tab/tabsSlice";
-import { useEffect } from "react";
-import { fetchPosts } from "../../redux/features/post/postSlice";
 import { CRUD_MODE_CREATE } from "../../config/constants";
+import { useFetchPostsQuery } from "../../api/posts";
 
 function SideMenu() {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, []);
+  const { data: posts = [], isLoading } = useFetchPostsQuery();
+
   const handleCreateNew = () => {
     const id = Math.floor(Math.random() * 10000);
     const title = prompt("Enter file name", "Untitled");
     dispatch(setCrudMode({ crudMode: CRUD_MODE_CREATE }));
     dispatch(openTab({ id, title, body: "", tempBody: "" }));
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ListGroup>
       <ListGroup.Item onClick={handleCreateNew}>

@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { CRUD_MODE_CREATE } from "../../config/constants";
-import {
-  createPost,
-  deletePost,
-  updatePost,
-} from "../../redux/features/post/postSlice";
 import { saveTab, updateTab } from "../../redux/features/tab/tabsSlice";
 import DeleteModal from "../modal/Modal";
 import { useNavigate } from "react-router-dom";
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+} from "../../api/posts";
 
 function TabContent(post) {
   const { id, tempBody, body } = post;
@@ -17,6 +17,9 @@ function TabContent(post) {
   const navigate = useNavigate();
   const { crudMode } = useSelector((state) => state.tabs);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createPost] = useCreatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const changeHandler = (value) => {
     dispatch(updateTab({ id, tempBody: value, body }));
@@ -24,16 +27,16 @@ function TabContent(post) {
   const saveHandler = (e) => {
     e.preventDefault();
     if (crudMode === CRUD_MODE_CREATE) {
-      dispatch(createPost(convertToServerFormat(post)));
+      createPost(convertToServerFormat(post));
     } else {
-      dispatch(updatePost(convertToServerFormat(post)));
+      updatePost(convertToServerFormat(post));
     }
     dispatch(saveTab({ id }));
   };
 
   const deleteHandler = (e) => {
     e.preventDefault();
-    dispatch(deletePost(post));
+    deletePost(id);
     setIsModalOpen(false);
     navigate("/");
   };

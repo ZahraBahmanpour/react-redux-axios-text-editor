@@ -1,49 +1,48 @@
-import { POSTS_URL } from "../config/api";
-import axios from "./http";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BASE_URL } from "../config/api";
 
-export const fetchAllPostsRequest = async () => {
-  try {
-    const response = await axios.get(POSTS_URL);
-    return response.data;
-    // Promise.all
-    // const response = await Promise.all(
-    //   [POSTS, "/cities"].map((endpoint) => axios.get(endpoint))
-    // );
-    // const [{ data: posts }, { data: cities }] = response;
-    //Abort Controller
-    // const controller = new AbortController();
-    // const response = await axios.get(`${POSTS}`, {
-    //   signal: controller.signal,
-    // });
-    // return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+const postsApi = createApi({
+  reducerPath: "postsApi",
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ["Posts"],
+  endpoints: (builder) => ({
+    fetchPosts: builder.query({
+      query: () => `posts`,
+      providesTags: ["Posts"],
+    }),
 
-export const updatePostRequest = async (post) => {
-  try {
-    const response = await axios.put(`${POSTS_URL}/${post.id}`, post);
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+    createPost: builder.mutation({
+      query: (post) => ({
+        url: "posts",
+        method: "POST",
+        body: post,
+      }),
+      invalidatesTags: ["Posts"],
+    }),
 
-export const createPostRequest = async (post) => {
-  try {
-    const response = await axios.post(`${POSTS_URL}`, post);
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+    updatePost: builder.mutation({
+      query: (post) => ({
+        url: `posts/${post.id}`,
+        method: "PUT",
+        body: post,
+      }),
+      invalidatesTags: ["Posts"],
+    }),
 
-export const deletePostRequest = async (post) => {
-  try {
-    const response = await axios.delete(`${POSTS_URL}/${post.id}`);
-    return response.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Posts"],
+    }),
+  }),
+});
+
+export const {
+  useFetchPostsQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+} = postsApi;
+export default postsApi;
